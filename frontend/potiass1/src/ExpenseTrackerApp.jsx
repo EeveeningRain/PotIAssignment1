@@ -184,6 +184,7 @@ export default function ExpenseTrackerApp() {
     return cost;
   };
 
+  //helper func to fill a map of category : cost pairs for use elsewhere
   const calculateCostOverCategories = () => {
     let category_costs = new Map();
 
@@ -198,8 +199,19 @@ export default function ExpenseTrackerApp() {
         category_costs.set(category, cost);
       }
     }
-    console.log(category_costs);
+    //console.log(category_costs);
     return category_costs;
+  }
+
+  //helper func that converts teh category cost map in to an array and that uses it to dynamically generate and return a list
+  const categoryCostList = (category_costs) => {
+    return (
+      <ul>
+        {(Array.from(category_costs.entries()).map((entry, index) => (
+          <li key={entry}>"{entry[0]}" costed ${entry[1]} across all expenses!</li>
+        )))}
+      </ul>
+    )
   }
 
   //html / js mix (remember react returns html)
@@ -269,11 +281,18 @@ export default function ExpenseTrackerApp() {
           </button>
         </div>
 
-        <div classname="expense-titles">
-          <span className="expense-span">
-                sdklfhs
-          </span>
+        <br/>
+
+        <div className="container">
+          <p className="item">Title</p>
+          <p className="item">Category</p>
+          <p className="item">Amount</p>
+          <p className="item">Unit Cost</p>
+          <p className="item">Description</p>
+          <p className="item">Date Created</p>
         </div>
+
+        <br/>
 
         <div className="expense-list">
 
@@ -394,11 +413,14 @@ export default function ExpenseTrackerApp() {
         </div>
         {expenses.length > 0 && (
           <div className="stats">
-            <span>${totalCost} spent over expenses </span>
-            <p></p>
-            <span>${costOverCategories}</span>
-            <p></p>
-            <span>{expenses.length} expenses tracked</span>
+            <p>Some stats about your expenses:</p>
+            <ul>
+              <li><span>${totalCost} spent over all of your expenses.</span></li>
+              <li><span>{expenses.length} expenses tracked.</span></li>
+            </ul>
+            <br/>
+            <p>Your costs by category are listed below:</p>
+            <span>{categoryCostList(costOverCategories)}</span>
           </div>
         )}
       </div>
