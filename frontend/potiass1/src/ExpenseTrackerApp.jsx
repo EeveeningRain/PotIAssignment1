@@ -7,6 +7,7 @@ const API_BASE_URL = 'http://127.0.0.1:3001/expenses';
 export default function ExpenseTrackerApp() {
   const [expenses, setExpenses] = useState([]);
   const [totalCost, setTotalCost] = useState(null);
+  const [costOverCategories, setCostOverCategories] = useState(null);
   const [input, setInput] = useState('');
   const [category, setCategory] =  useState('');
   const [amount, setAmount] = useState('');
@@ -29,6 +30,7 @@ export default function ExpenseTrackerApp() {
   useEffect(() => {
     document.title = `Expenses (${expenses.length} on tracker)`;
     setTotalCost(calculateCostOfExpenses());
+    setCostOverCategories(calculateCostOverCategories());
   }, [expenses]);
 
   // used for the useEffect hook, grabs expenses from api url
@@ -182,6 +184,24 @@ export default function ExpenseTrackerApp() {
     return cost;
   };
 
+  const calculateCostOverCategories = () => {
+    let category_costs = new Map();
+
+    for(let i = 0; i < expenses.length; i++){
+      let category = expenses[i].category;
+      let cost = expenses[i].cost * expenses[i].amount;
+
+      if(category_costs.get(category)){
+        category_costs.set(category, category_costs.get(category) + cost);
+      }
+      else{
+        category_costs.set(category, cost);
+      }
+    }
+    console.log(category_costs);
+    return category_costs;
+  }
+
   //html / js mix (remember react returns html)
   return (
     <div className="app-container">
@@ -249,7 +269,14 @@ export default function ExpenseTrackerApp() {
           </button>
         </div>
 
+        <div classname="expense-titles">
+          <span className="expense-span">
+                sdklfhs
+          </span>
+        </div>
+
         <div className="expense-list">
+
           {expenses.length === 0 ? (
             <div className="empty-state">
               <div className="empty-icon">📝</div>
@@ -368,6 +395,8 @@ export default function ExpenseTrackerApp() {
         {expenses.length > 0 && (
           <div className="stats">
             <span>${totalCost} spent over expenses </span>
+            <p></p>
+            <span>${costOverCategories}</span>
             <p></p>
             <span>{expenses.length} expenses tracked</span>
           </div>
