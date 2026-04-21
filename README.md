@@ -8,6 +8,8 @@ API: FastAPI
 Backend: MySQL in python
 Database: SQL relational database
 
+*please note that the database was created by using the 'mysql' utility from the command line. everything else is done in code*
+
 # Feature list:
 Add expenses
 Delete expenses
