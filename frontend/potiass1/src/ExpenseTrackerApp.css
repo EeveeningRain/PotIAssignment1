@@ -340,6 +340,11 @@ body {
   text-align: left;
 }
 
+.chart {
+  max-width: 200px;
+  max-height: 200px;
+}
+
 li {
   margin-left: 1.5rem;
 }

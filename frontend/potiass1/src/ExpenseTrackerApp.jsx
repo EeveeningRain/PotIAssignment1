@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { Trash2, Plus, Check, X, Edit2 } from 'lucide-react';
-import Chart from 'chartjs';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+
+
 import './ExpenseTrackerApp.css';
+
+//chart js stuff
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const API_BASE_URL = 'http://127.0.0.1:3001/expenses';
 
@@ -32,8 +38,6 @@ export default function ExpenseTrackerApp() {
     document.title = `Expenses (${expenses.length} on tracker)`;
     setTotalCost(calculateCostOfExpenses());
     setCostOverCategories(calculateCostOverCategories());
-    //createChartFromCategoryCost(calculateCostOverCategories());
-    createChart();
   }, [expenses]);
 
   // used for the useEffect hook, grabs expenses from api url
@@ -219,53 +223,47 @@ export default function ExpenseTrackerApp() {
 
   //using chart.js like recommended by tutor  
   //createChartFromCategoryCost = (category_costs) => {
-  const createChart = () => {
-    console.log("func entered");
-  const data = [
-    { year: 2010, count: 10 },
-    { year: 2011, count: 20 },
-    { year: 2012, count: 15 },
-    { year: 2013, count: 25 },
-    { year: 2014, count: 22 },
-    { year: 2015, count: 30 },
-    { year: 2016, count: 28 },
-  ];
+  const createChart = (category_costs) => {
 
-  new Chart(
-    document.getElementById('categoryChart'),
-    {
-      type: 'bar',
-      data: {
-        labels: data.map(row => row.year),
-        datasets: [
-          {
-            label: 'Acquisitions by year',
-            data: data.map(row => row.count)
-          }
-        ]
-      }
-    }
-  );
-  console.log("end of func");
-};
-    // let cc_arr = Array.from(category_costs.entries());
-    // //console.log(document.getElementById('categoryChart'));
+  let labelslist = [];
+  Array.from(category_costs.entries()).map((entry, index) => ( labelslist.push(entry[0]) ))
+  console.log(labelslist);
 
-    // new Chart(
-    //   document.getElementById('categoryChart'),
-    //   {
-    //     type: 'bar',
-    //     data: {
-    //       labels: cc_arr.map(entry => entry[0]),
-    //       datasets: [
-    //         {
-    //           label: 'Costs by category',
-    //           data: cc_arr.map(entry => entry[1])
-    //         }
-    //       ]
-    //     }
-    //   }
-    // );
+  let datalist = [];
+  Array.from(category_costs.entries()).map((entry, index) => ( datalist.push(entry[1]) ))
+  console.log(datalist);
+
+  let data = {
+    labels: labelslist,
+    datasets: [
+      {
+        label: 'Costs',
+        data: datalist,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+    return (
+      <Pie className="chart" data={data} />
+    )
+  };
 
   //html / js mix (remember react returns html)
   return (
@@ -478,7 +476,7 @@ export default function ExpenseTrackerApp() {
               <span>{categoryCostList(costOverCategories)}</span>
               </div>
               <div className="item-no-bg">
-                <canvas id="categoryChart"></canvas>
+                { createChart(calculateCostOverCategories()) }
               </div>
             </div>
           </div>
