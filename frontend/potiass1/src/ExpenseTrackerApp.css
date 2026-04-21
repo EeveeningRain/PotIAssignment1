@@ -18,7 +18,7 @@ body {
 }
 
 .app-wrapper {
-  max-width: 600px;
+  max-width: 1500px;
   margin: 0 auto;
 }
 
@@ -52,7 +52,7 @@ body {
   align-items: center;
 }
 
-.todo-input {
+.expense-input {
   flex: 1;
   padding: 0.875rem 1.25rem;
   border: 2px solid #e5e7eb;
@@ -61,12 +61,12 @@ body {
   transition: border-color 0.3s;
 }
 
-.todo-input:focus {
+.expense-input:focus {
   outline: none;
   border-color: #667eea;
 }
 
-.todo-input:disabled {
+.expense-input:disabled {
   background-color: #f9fafb;
   cursor: not-allowed;
   opacity: 0.6;
@@ -101,8 +101,8 @@ body {
   background: #9ca3af;
 }
 
-/* Todo List */
-.todo-list {
+/* expense List */
+.expense-list {
   background: white;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
@@ -124,11 +124,11 @@ body {
   font-size: 1.125rem;
 }
 
-.todo-items {
+.expense-items {
   list-style: none;
 }
 
-.todo-item {
+.expense-item {
   padding: 1.25rem;
   border-bottom: 1px solid #f3f4f6;
   display: flex;
@@ -137,11 +137,11 @@ body {
   transition: background-color 0.2s;
 }
 
-.todo-item:hover {
+.expense-item:hover {
   background-color: #f9fafb;
 }
 
-.todo-item:last-child {
+.expense-item:last-child {
   border-bottom: none;
 }
 
@@ -173,19 +173,19 @@ body {
   color: white;
 }
 
-/* Todo Text */
-.todo-text {
+/* expense Text */
+.expense-text {
   flex: 1;
   color: #1f2937;
   font-size: 1.05rem;
 }
 
-.todo-completed {
+.expense-completed {
   text-decoration: line-through;
   color: #9ca3af;
 }
 
-.todo-text.disabled {
+.expense-text.disabled {
   opacity: 0.5;
 }
 

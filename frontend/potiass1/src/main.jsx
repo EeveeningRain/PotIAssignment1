@@ -1,5 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import TodoApp from "./TodoApp";
+import ExpenseTrackerApp from "./ExpenseTrackerApp";
 
-ReactDOM.createRoot(document.getElementById("root")).render(<TodoApp />);
+ReactDOM.createRoot(document.getElementById("root")).render(<ExpenseTrackerApp />);
