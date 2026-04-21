@@ -319,6 +319,10 @@ body {
   overflow: hidden;
 }
 
+.container-no-bg {
+    display:flex;
+}
+
 .item {
   flex-grow: 1;
 
@@ -328,6 +332,12 @@ body {
   text-align: center;
   gap: 1rem;
   transition: background-color 0.2s;
+}
+
+.item-no-bg {
+  flex-grow: 1;
+  align-items: left;
+  text-align: left;
 }
 
 li {

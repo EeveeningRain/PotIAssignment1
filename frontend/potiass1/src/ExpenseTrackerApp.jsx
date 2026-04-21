@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Trash2, Plus, Check, X, Edit2 } from 'lucide-react';
+import Chart from 'chartjs';
 import './ExpenseTrackerApp.css';
 
 const API_BASE_URL = 'http://127.0.0.1:3001/expenses';
@@ -26,11 +27,13 @@ export default function ExpenseTrackerApp() {
     inputRef.current?.focus();
   }, []);
 
-  // Fetch the correct title for document at load
+  // Calc the correct data for document at reload
   useEffect(() => {
     document.title = `Expenses (${expenses.length} on tracker)`;
     setTotalCost(calculateCostOfExpenses());
     setCostOverCategories(calculateCostOverCategories());
+    //createChartFromCategoryCost(calculateCostOverCategories());
+    createChart();
   }, [expenses]);
 
   // used for the useEffect hook, grabs expenses from api url
@@ -213,6 +216,56 @@ export default function ExpenseTrackerApp() {
       </ul>
     )
   }
+
+  //using chart.js like recommended by tutor  
+  //createChartFromCategoryCost = (category_costs) => {
+  const createChart = () => {
+    console.log("func entered");
+  const data = [
+    { year: 2010, count: 10 },
+    { year: 2011, count: 20 },
+    { year: 2012, count: 15 },
+    { year: 2013, count: 25 },
+    { year: 2014, count: 22 },
+    { year: 2015, count: 30 },
+    { year: 2016, count: 28 },
+  ];
+
+  new Chart(
+    document.getElementById('categoryChart'),
+    {
+      type: 'bar',
+      data: {
+        labels: data.map(row => row.year),
+        datasets: [
+          {
+            label: 'Acquisitions by year',
+            data: data.map(row => row.count)
+          }
+        ]
+      }
+    }
+  );
+  console.log("end of func");
+};
+    // let cc_arr = Array.from(category_costs.entries());
+    // //console.log(document.getElementById('categoryChart'));
+
+    // new Chart(
+    //   document.getElementById('categoryChart'),
+    //   {
+    //     type: 'bar',
+    //     data: {
+    //       labels: cc_arr.map(entry => entry[0]),
+    //       datasets: [
+    //         {
+    //           label: 'Costs by category',
+    //           data: cc_arr.map(entry => entry[1])
+    //         }
+    //       ]
+    //     }
+    //   }
+    // );
 
   //html / js mix (remember react returns html)
   return (
@@ -413,14 +466,21 @@ export default function ExpenseTrackerApp() {
         </div>
         {expenses.length > 0 && (
           <div className="stats">
-            <p>Some stats about your expenses:</p>
-            <ul>
-              <li><span>${totalCost} spent over all of your expenses.</span></li>
-              <li><span>{expenses.length} expenses tracked.</span></li>
-            </ul>
-            <br/>
-            <p>Your costs by category are listed below:</p>
-            <span>{categoryCostList(costOverCategories)}</span>
+            <div className="container-no-bg">
+              <div className="item-no-bg">
+              <p>Some stats about your expenses:</p>
+              <ul>
+                <li><span>${totalCost} spent over all of your expenses.</span></li>
+                <li><span>{expenses.length} expenses tracked.</span></li>
+              </ul>
+              <br/>
+              <p>Your costs by category are listed below:</p>
+              <span>{categoryCostList(costOverCategories)}</span>
+              </div>
+              <div className="item-no-bg">
+                <canvas id="categoryChart"></canvas>
+              </div>
+            </div>
           </div>
         )}
       </div>
